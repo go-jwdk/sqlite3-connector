@@ -31,7 +31,7 @@ func (Provider) Open(cfgMap map[string]interface{}) (jobworker.Connector, error)
 	return Open(cfg)
 }
 
-func Open(cfg *Config) (*Connector, error) {
+func Open(cfg *Config) (*rdb.Connector, error) {
 	cfg.ApplyDefaultValues()
 
 	db, err := sql.Open(connName, cfg.DSN)
@@ -44,7 +44,7 @@ func Open(cfg *Config) (*Connector, error) {
 		db.SetConnMaxLifetime(*cfg.ConnMaxLifetime)
 	}
 
-	conn, err := rdb.Open(&rdb.Config{
+	return rdb.Open(&rdb.Config{
 		Name:                  connName,
 		DB:                    db,
 		NumMaxRetries:         *cfg.NumMaxRetries,
@@ -53,17 +53,6 @@ func Open(cfg *Config) (*Connector, error) {
 		IsUniqueViolation:     isUniqueViolation,
 		IsDeadlockDetected:    isDeadlockDetected,
 	})
-	if err != nil {
-		return nil, err
-	}
-
-	return &Connector{
-		Connector: conn,
-	}, nil
-}
-
-type Connector struct {
-	*rdb.Connector
 }
 
 var isUniqueViolation = func(err error) bool {
