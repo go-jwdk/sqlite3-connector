@@ -6,5 +6,4 @@ require (
 	github.com/go-jwdk/db-connector v0.2.1
 	github.com/go-jwdk/jobworker v0.3.0
 	github.com/mattn/go-sqlite3 v2.0.2+incompatible
-	github.com/vvatanabe/expiremap v0.9.1 // indirect
 )

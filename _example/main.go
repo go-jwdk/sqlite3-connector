@@ -3,7 +3,6 @@ package main
 import (
 	"context"
 	"fmt"
-	"os"
 	"time"
 
 	"github.com/go-jwdk/jobworker"
@@ -13,12 +12,11 @@ import (
 
 func main() {
 
-	dsn := os.Getenv("SQLITE3_DSN")
 	connMaxLifetime := time.Minute
 	numMaxRetries := 3
 
 	s := &sqlite3.Config{
-		DSN:             dsn,
+		DSN:             "example.db",
 		MaxOpenConns:    3,
 		MaxIdleConns:    3,
 		ConnMaxLifetime: &connMaxLifetime,

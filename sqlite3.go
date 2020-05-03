@@ -110,7 +110,6 @@ INSERT INTO %s (job_id, content, deduplication_id, group_id, retry_count, invisi
 VALUES (?, ?, ?, ?, 0, strftime('%%s', 'now') + ?, strftime('%%s', 'now') )
 `
 	return fmt.Sprintf(query, table), []interface{}{jobID, content, deduplicationID, groupID, delaySeconds}
-
 }
 
 func (sqlTemplate) NewEnqueueJobWithTimeDML(table, jobID, content string, deduplicationID, groupID *string, enqueueAt int64) (stmt string, args []interface{}) {
@@ -181,7 +180,7 @@ func (sqlTemplate) NewCreateQueueAttributesDDL() string {
 CREATE TABLE IF NOT EXISTS %s_queue_attributes (
         name                     VARCHAR(255) NOT NULL,
         raw_name                 VARCHAR(255) NOT NULL,
-		visibility_timeout       INTEGER UNSIGNED NOT NULL DEFAULT 30,
+		visibility_timeout       INTEGER UNSIGNED NOT NULL,
 		delay_seconds            INTEGER UNSIGNED NOT NULL,
 		max_receive_count        INTEGER UNSIGNED NOT NULL,
 		dead_letter_target       VARCHAR(255),
